@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using System.Threading;
+using System.Diagnostics;
 
 namespace Clientv01
 {
@@ -119,9 +120,58 @@ namespace Clientv01
             string appPath = AppDomain.CurrentDomain.BaseDirectory;
             Directory.CreateDirectory(appPath + "Update");
             string[] filename = Directory.GetFiles(appPath + "Update");
+            //var dir1 = new DirectoryInfo(@"C:\Folder1\F1");
+            var dir2 = new DirectoryInfo(@"C:\f2");
 
-            System.IO.Directory.Move(@"C:\Users\Samsung\Desktop\prog1", @"C:\Users\Samsung\Desktop\prog");
+            try
+            {
+                foreach (Process proc in Process.GetProcessesByName("GeneralCLIENT"))
+                {
+                    proc.Kill();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
+            //System.IO.Directory.Move(dir1.FullName, dir2.FullName);
+
+            //   var enumerateDir2 = dir2.EnumerateFileSystemInfos().ToList();
+
+            // var directories = enumerateDir2.OfType<DirectoryInfo>().ToList();
+            // var files = enumerateDir2.OfType<FileInfo>().ToList();
+            //System.IO.Directory.GetFileSystemEntries()
+
+            /*  for(int i=0; i<files.Count; i++)
+               {
+                   File.Copy(files[i].FullName, @"C:\f10\\" + files[i].Name);
+               }*/
+
+            // string way1 = dir2.FullName;
+            string way1 = @appPath + "Update";
+            string way2 = @"C:\f10";
+
+       //    for(int i = 0; i < directories.Count; i++)
+         //   {
+                // Directory(directories[i].FullName, @"C:\f10\\" + directories[i].Name);
+                CopyDirectory.CopyDir(way1,way2);
+          //  }
         }
+
+      /*  void CopyDir(string FromDir, string ToDir)
+        {
+            Directory.CreateDirectory(ToDir);
+            foreach (string s1 in Directory.GetFiles(FromDir))
+            {
+                string s2 = ToDir + "\\" + System.IO.Path.GetFileName(s1);
+                File.Copy(s1, s2 ,true);
+            }
+            foreach (string s in Directory.GetDirectories(FromDir))
+            {
+                CopyDir(s, ToDir + "\\" + System.IO.Path.GetFileName(s));
+            }
+        }*/
+
     }
 }
