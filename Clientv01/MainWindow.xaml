@@ -6,6 +6,17 @@
         xmlns:local="clr-namespace:Clientv01"
         mc:Ignorable="d"
         Title="Launcher" Height="408" Width="382">
+    
+    <Window.Resources>
+  <ContextMenu x:Key="TrayMenu">
+    <MenuItem Header="Hide" Click="ShowHideMainWindow"/>
+            <!--   <MenuItem Header="Item2" />-->
+    <Separator />
+    <MenuItem Header="Exit" Click="MenuExitClick"/>
+  </ContextMenu>
+</Window.Resources>
+    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="140*"/>
