@@ -77,13 +77,13 @@ namespace Clientv01
              
                 Hide();
 
-                (TrayMenu.Items[0] as MenuItem).Header = "Show";
+                (TrayMenu.Items[0] as MenuItem).Header = "Развернуть";
             }
             else
             { 
                 Show();
                 
-                (TrayMenu.Items[0] as MenuItem).Header = "Hide";
+                (TrayMenu.Items[0] as MenuItem).Header = "Скрыть";
                 WindowState = CurrentWindowState;
                 Activate(); 
             }
@@ -106,7 +106,7 @@ namespace Clientv01
                
                 Hide();
               
-                (TrayMenu.Items[0] as MenuItem).Header = "Show";
+                (TrayMenu.Items[0] as MenuItem).Header = "Развернуть";
             }
             else
             {
@@ -133,7 +133,7 @@ namespace Clientv01
               
                 CurrentWindowState = this.WindowState;
                
-                (TrayMenu.Items[0] as MenuItem).Header = "Show";
+                (TrayMenu.Items[0] as MenuItem).Header = "Развернуть";
                 
                 Hide();
             }
@@ -153,8 +153,10 @@ namespace Clientv01
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            
 
+         /*   if(MessageBox.Show("Есть обновления. Обновить?", "Обновление системы", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes){
+                MessageBox.Show("ОТЛИЧО");
+            }*/
 
             //  MessageBox.Show(result[0].ToString());
          //   MessageBox.Show(filename[0]);
@@ -191,19 +193,21 @@ namespace Clientv01
 
                 txtblock.Text = "";
 
-                for (int i = 0; i < list.Length; i++)
+               /* for (int i = 0; i < list.Length; i++)
                 {
                     // MessageBox.Show(list[i]);
                     // int l = list[0].Length;
 
-                    txtblock.Text += "-->>" + list[i] + "\n";
+                  //  txtblock.Text += "-->>" + list[i] + "\n";
                     //  MessageBox.Show(list[i].Substring(0, 3) + "0001" + list[i].Substring(7, list[i].Length - 7 ));
-                }
+                }*/
 
 
 
                 for (int i = 0; i < list.Length; i++)
                 {
+                    txtblock.Text += "\n-->>" + list[i];//Скачиваемый файл
+
                     int lenght = ServiceUpdate.LenghtFile(list[i]);
                     Stream file = ServiceUpdate.getFile(list[i]);
                     byte[] bytes_file_w = new byte[lenght];
@@ -211,16 +215,22 @@ namespace Clientv01
                     var offset = 0;
                     var actualRead = 0;
 
+                    string text = txtblock.Text;
                     do
                     {
+                        
                         actualRead = file.Read(bytes_file_w, offset, lenght - offset);
                         offset += actualRead;
+                        txtblock.Text = text + " " + offset.ToString() + "/" + lenght.ToString();
                     } while (actualRead > 0);
 
+                    
 
                     //string path = @list[i].Substring(0, 3) + "0001" + list[i].Substring(7, list[i].Length - 7);
                     //string path = @"c:\0001\test.txt";
-                    string path = @appPath + "Update\\" + result[i];
+                    string way1 = System.IO.Path.GetDirectoryName(list[i]);
+                    Directory.CreateDirectory(appPath + "Update\\" + way1);
+                    string path = @appPath + "Update\\" + list[i];
                     FileStream file_w = File.Open(path, FileMode.Create);
                     file_w.Write(bytes_file_w, 0, bytes_file_w.Length);
 
@@ -231,7 +241,7 @@ namespace Clientv01
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Сервис не отвечает:");
+                MessageBox.Show("Сработало исключение\n " + ex,"Error",MessageBoxButton.OK,MessageBoxImage.Error);
                 txtblock.Text = ex.Message;
             }
             ServiceUpdate.Close();

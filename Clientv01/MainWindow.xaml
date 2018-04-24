@@ -9,10 +9,10 @@
     
     <Window.Resources>
   <ContextMenu x:Key="TrayMenu">
-    <MenuItem Header="Hide" Click="ShowHideMainWindow"/>
+    <MenuItem Header="Скрыть" Click="ShowHideMainWindow"/>
             <!--   <MenuItem Header="Item2" />-->
     <Separator />
-    <MenuItem Header="Exit" Click="MenuExitClick"/>
+    <MenuItem Header="Выключить" Click="MenuExitClick"/>
   </ContextMenu>
 </Window.Resources>
     
